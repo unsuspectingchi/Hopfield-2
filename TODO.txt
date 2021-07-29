@@ -1,0 +1,3 @@
+- Replace 2D vector with custom matrix class
+- Implement weight finder algorithm using helper functions in Math hpp/cpp
+- That's it!
