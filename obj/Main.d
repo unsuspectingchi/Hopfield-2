@@ -1,5 +1,5 @@
-obj/Main.o: src/Main.cpp inc/Runner.hpp inc/Matrix.hpp
+obj/Main.o: src/Main.cpp inc/Hopfield.hpp inc/Matrix.hpp
 
-inc/Runner.hpp:
+inc/Hopfield.hpp:
 
 inc/Matrix.hpp:

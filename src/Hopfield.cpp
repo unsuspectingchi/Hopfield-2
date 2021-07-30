@@ -1,7 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include "Network.hpp"
-#include "Runner.hpp"
+#include "Hopfield.hpp"
 #include <string>
 #include <sstream>
 
@@ -13,12 +13,12 @@ using std::string;
 using std::stringstream;
 using std::vector;
 
-void Runner::DeleteMatrixRows(Matrix<int> &matrix)
+void Hopfield::DeleteMatrixRows(Matrix<int> &matrix)
 {
   matrix.~Matrix();
 }
 
-void Runner::PrintMatrix(Matrix<int> &matrix)
+void Hopfield::PrintMatrix(Matrix<int> &matrix)
 {
   cout << "==================\n";
   for (int row = 0; row < matrix.GetLength(); ++row)
@@ -32,7 +32,7 @@ void Runner::PrintMatrix(Matrix<int> &matrix)
   cout << "==================\n";
 }
 
-bool Runner::ReadFileToMatrix(char *fileName, Matrix<int> &matrix)
+bool Hopfield::ReadFileToMatrix(char *fileName, Matrix<int> &matrix)
 {
   int parsedInt;
   string line;
@@ -77,19 +77,11 @@ bool Runner::ReadFileToMatrix(char *fileName, Matrix<int> &matrix)
   return true;
 }
 
-int Runner::Run(int argc, char **argv)
+int Hopfield::Run(char *weightsFile, char *inputsFile)
 {
-  // Ensure that expected command line arguments were provided.
-  if (argc < 2)
-  {
-    cerr << "ERROR: Failure to specify weights and inputs data files.\n"
-         << "Start program by 'Main <weights-file> <inputs-file>'.\n";
-    return 1;
-  }
-
   // Read weights file into a vector matrix.
   Matrix<int> weightsMatrix;
-  if (!ReadFileToMatrix(argv[1], weightsMatrix))
+  if (!ReadFileToMatrix(weightsFile, weightsMatrix))
   {
     cerr << "ERROR: Cannot open specified weights data file.\n";
     return 1;
@@ -116,7 +108,7 @@ int Runner::Run(int argc, char **argv)
 
   // Read inputs file into a vector matrix.
   Matrix<int> inputsMatrix;
-  if (!ReadFileToMatrix(argv[2], inputsMatrix))
+  if (!ReadFileToMatrix(inputsFile, inputsMatrix))
   {
     cerr << "ERROR: Cannot open specified inputs data file.\n";
     return 1;
@@ -171,5 +163,47 @@ int Runner::Run(int argc, char **argv)
   }
   cout << "---------------------------------\n";
   cout << "FINISHED\n";
+  return 0;
+}
+
+int Hopfield::WriteWeightsMatrix(char *patternsFile, char *weightsFile)
+{
+  // Read patterns file into a vector matrix.
+  Matrix<int> patternsMatrix;
+  if (!ReadFileToMatrix(patternsFile, patternsMatrix))
+  {
+    cerr << "ERROR: Cannot open specified patterns data file.\n";
+    return 1;
+  }
+
+  // Ensure that the patternsMatrix is not empty.
+  if (!patternsMatrix.GetRowLength(0))
+  {
+    cerr << "ERROR: Empty weights matrix.\n";
+    return 1;
+  }
+
+  // Display the patternsMatrix.
+  cout << "\nPATTERNS MATRIX:\n";
+  PrintMatrix(patternsMatrix);
+
+  int size = patternsMatrix.GetRowLength(0);
+  for (int i = 1; i < patternsMatrix.GetLength(); ++i)
+  {
+    if (patternsMatrix.GetRowLength(i) != size)
+    {
+      cerr << "Error: Specified patterns are not identical sizes" << std::endl;
+      // TODO: MEMORY MANAGEMENT? OR WILL DESTRUCTORS MANAGE MEMORY?
+      return 1;
+    }
+  }
+
+  // Read inputs file into a vector matrix.
+  Matrix<int> inputsMatrix;
+
+  /* TODO:
+    1. bipolarize pattensMatrix
+    2. etc. (make weights matrix)
+  */
   return 0;
 }

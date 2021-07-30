@@ -1,11 +1,14 @@
 #pragma once
 #include "Matrix.hpp"
 
-class Runner
+class Hopfield
 {
 public:
   // Run all provided input data through network created with provided weights.
-  static int Run(int argc, char **argv);
+  static int Run(char *weightsFile, char *inputsFile);
+
+  // Derive weights matrix for specified patterns and write to specified file.
+  static int WriteWeightsMatrix(char *patternsFile, char *weightsFile);
 
 private:
   // Manage memory by deleting each row of a matrix.
