@@ -39,7 +39,7 @@ bool Runner::ReadFileToMatrix(char *fileName, Matrix<int> &matrix)
   fstream fs;
   stringstream ss;
   vector<int> *rowOfInts = nullptr;
-  int numRow = 0;
+  // int numRow = 0;
 
   // Open the specified file into a file stream.
   fs.open(fileName, ios::in);
@@ -66,7 +66,7 @@ bool Runner::ReadFileToMatrix(char *fileName, Matrix<int> &matrix)
       rowOfInts->emplace_back(parsedInt);
     }
     // Emplace the rowOfInts into the specified matrix.
-    matrix.SetRow(rowOfInts, numRow++);
+    matrix.AppendRow(rowOfInts);
     // TODO: rowOfInts deleted???
   }
 
