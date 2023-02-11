@@ -1,6 +1,6 @@
-# Hopfield-01
+# Hopfield-02
 
-Hopfield-01 is an example of a Hopfield network with a single layer, implemented in C++.
+Hopfield-02 is an example of a Hopfield network with a single layer, implemented in C++.
 
 This simple example consists of four neurons mutually connected to one another. The connections have weights, which can be positive or negative. The network is already trained to recall either of two input patterns. These inputs are in the form of binary patterns having in each component a 0 or 1:
 
